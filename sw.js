@@ -1,9 +1,10 @@
 // install event
-self.addEventListener('install', evt => {
-  console.log('service worker installed');
+self.addEventListener("install", (evt) => {
+  console.log("service worker installed");
 });
 
+// ax
 // activate event
-self.addEventListener('activate', evt => {
-  console.log('service worker activated');
+self.addEventListener("activate", (evt) => {
+  console.log("service worker activated");
 });
