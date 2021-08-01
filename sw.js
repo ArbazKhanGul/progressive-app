@@ -1,5 +1,5 @@
-const staticCacheName = "site-static-v7";
-const dynamicCacheName = "site-dynamic-v10";
+const staticCacheName = "site-static-v6";
+// const dynamicCacheName = 'site-dynamic-v1';
 const assets = [
   "/",
   "/index.html",
@@ -13,6 +13,17 @@ const assets = [
   "https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
   "/pages/fallback.html",
 ];
+
+// cache size limit function
+// const limitCacheSize = (name, size) => {
+//   caches.open(name).then(cache => {
+//     cache.keys().then(keys => {
+//       if(keys.length > size){
+//         cache.delete(keys[0]).then(limitCacheSize(name, size));
+//       }
+//     });
+//   });
+// };
 
 // install event
 self.addEventListener("install", (evt) => {
@@ -33,7 +44,7 @@ self.addEventListener("activate", (evt) => {
       //console.log(keys);
       return Promise.all(
         keys
-          .filter((key) => key !== staticCacheName && key !== dynamicCacheName)
+          .filter((key) => key !== staticCacheName)
           .map((key) => caches.delete(key))
       );
     })
@@ -47,15 +58,15 @@ self.addEventListener("fetch", (evt) => {
     caches
       .match(evt.request)
       .then((cacheRes) => {
-        return (
-          cacheRes ||
-          fetch(evt.request).then((fetchRes) => {
-            return caches.open(dynamicCacheName).then((cache) => {
-              cache.put(evt.request.url, fetchRes.clone());
-              return fetchRes;
-            });
-          })
-        );
+        return cacheRes || fetch(evt.request);
+        // .then(fetchRes => {
+        // return caches.open(dynamicCacheName).then(cache => {
+        // cache.put(evt.request.url, fetchRes.clone());
+        // check cached items size
+        // limitCacheSize(dynamicCacheName, 15);
+        // return fetchRes;
+        // })
+        // });
       })
       .catch(() => {
         if (evt.request.url.indexOf(".html") > -1) {
