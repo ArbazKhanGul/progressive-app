@@ -1,5 +1,5 @@
-const staticCacheName = "site-static-v3";
-const dynamicCacheName = "site-dynamic-v1";
+const staticCacheName = "site-static-v6";
+const dynamicCacheName = "site-dynamic-v9";
 const assets = [
   "/",
   "/index.html",
@@ -33,7 +33,7 @@ self.addEventListener("activate", (evt) => {
       //console.log(keys);
       return Promise.all(
         keys
-          .filter((key) => key !== staticCacheName)
+          .filter((key) => key !== staticCacheName && key !== dynamicCacheName)
           .map((key) => caches.delete(key))
       );
     })
