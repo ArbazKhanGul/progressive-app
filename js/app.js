@@ -12,7 +12,7 @@ const installApp = document.getElementById("installApp");
 
 installApp.addEventListener("click", async () => {
   console.log(deferredPrompt);
-  if (deferredPrompt !== null) {
+  if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
